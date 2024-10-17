@@ -34,19 +34,7 @@ public class Juego {
     }
     
     
-    public void numerosRepetidos(){
-     
-        for (int  i= 0; i <carton.length; i++) {
-            cartonR[i]=carton[i];
-            
-        }
-         
-    }
-    
-    
-    
-    public void 
-    
-    
-    
 }
+         
+    
+    

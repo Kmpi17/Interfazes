@@ -27,6 +27,7 @@ public class Ventana {
     JRadioButton radio=new JRadioButton();
     JComboBox combo=new JComboBox();
     JButton botonE=new JButton();
+ 
     public Ventana(){//constructor vacio para jframe
         frame.setVisible(true); //mostrar jframe
         frame.setSize(500,500); //setear tamaño
@@ -89,9 +90,7 @@ public class Ventana {
         ActionListener seleccion=new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (opcion.) {
-                    
-                }
+           
             }
             
         };
