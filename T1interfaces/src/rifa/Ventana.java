@@ -31,7 +31,7 @@ public Ventana(){
     ventana.setSize(500, 500);
     
     
-    botonAleatorio();
+
     botonStart();
     Panel();
 }
@@ -46,24 +46,7 @@ public void botonStart(){
     
 }
 
-public void botonAleatorio(){
-    
-    panel.add(botonAleatorio);
-    botonAleatorio.setVisible(true);
-    botonAleatorio.setText("GENERAR CARTON");
-    botonAleatorio.setBounds(400, 50, 50, 50);
-    ActionListener pulsarBotonA=new ActionListener(){
-        
+}
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-         juego.cartonAleatorio();
-         juego.numerosRepetidos();
-        }
-    };
-            botonAleatorio.addActionListener(pulsarBotonA);
-}
-    
-}
 
 

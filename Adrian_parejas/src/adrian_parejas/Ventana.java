@@ -6,7 +6,10 @@ package adrian_parejas;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,8 +26,8 @@ public class Ventana {
 
     JFrame frame = new JFrame();
     JPanel panel = new JPanel();
-
-    ArrayList<Cartas> baraja = new ArrayList<Cartas>();
+    JLabel carta1 = new JLabel();
+    JLabel carta2 = new JLabel();
 
     public Ventana() {//constructor vacio para jframe
         frame.setVisible(true); //mostrar jframe
@@ -35,46 +38,57 @@ public class Ventana {
         frame.setLocation(0, 0); //cambiar posicion inicial de la ventana
         frame.getContentPane().setBackground(Color.red); //para aceder al panel y 
         frame.setTitle("Lihuak");// para añadir un titulo
+
         Panel(); // llama al metodo panel
-        crearBaraja();
+
+        baraja();
+        FondoPantalla();
 
     }
 
     public void Panel() {
-        panel.setBackground(Color.blue);// para cambiar el color del panel
-        frame.add(panel); // AÑADIR PANEL SOBRE LA VENTANA
 
-        panel.setLayout(null); // Desactiva el layout por defecto
+        frame.add(panel); // añadir panel sobre la ventana
+        panel.setLayout(null); // desactiva el layout por defecto
+
     }
 
-    public void crearBaraja() {
-        for (int i = 0; i < 5; i++) {
-            if (i < 2) {
-                baraja.add(new Cartas(i, "/imagenes/reverso.jpg", ""));
-            }
-            if (i > 1 && i < 4) {
-                baraja.add(new Cartas(i, "/imagenes/reverso.jpg", ""));
-            }
-            if (i > 3) {
-                baraja.add(new Cartas(i, "/imagenes/reverso.jpg", ""));
-            }
-        }
+    public void FondoPantalla() {
 
-        JLabel carta1 = new JLabel();
-        JLabel carta2 = new JLabel();
-        int[] arrayNumeros = new int[6];
+        ImageIcon imagen = new ImageIcon("img\\ghotam.jpg");
+        JLabel fondo = new JLabel();
 
-        for (int i = 0; i < arrayNumeros.length; i++) {
+        // Establecer el tamaño del JLabel de fondo
+        fondo.setBounds(0, 0, panel.getWidth(), panel.getHeight());
 
-            ImageIcon imagen = new ImageIcon(baraja.get(numA).cara);
-            carta1.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(carta1.getWidth(), carta1.getHeight(), Image.SCALE_DEFAULT)));
+        // Asignar la imagen al JLabel de fondo
+        fondo.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(fondo.getWidth(), fondo.getHeight(), Image.SCALE_SMOOTH)));
 
-        }
+        // Añadir el JLabel de fondo al panel
+        panel.add(fondo);
 
-        carta1.setBounds(40, 40, 100, 150);
+        // Asegúrate de que el panel se repinte
+        panel.revalidate();
+        panel.repaint();
+    }
 
-        carta1.setOpaque(true);
+    public void baraja() {
+
+        carta1.setBounds(250, 100, 300, 400);
+        carta1.setVisible(true);
+        carta1.setBackground(Color.white);
+        carta1.setForeground(Color.white);
         panel.add(carta1);
+        ImageIcon reverso = new ImageIcon("img\\reverso.jpg");
+        carta1.setIcon(new ImageIcon(reverso.getImage().getScaledInstance(carta1.getWidth(), carta1.getHeight(), Image.SCALE_SMOOTH)));
 
+        carta2.setBounds(800, 100, 300, 400);
+        carta2.setVisible(true);
+        carta2.setBackground(Color.white);
+        carta2.setForeground(Color.white);
+        panel.add(carta2);
+        ImageIcon reverso2 = new ImageIcon("img\\reverso.jpg");
+        carta2.setIcon(new ImageIcon(reverso2.getImage().getScaledInstance(carta2.getWidth(), carta2.getHeight(), Image.SCALE_SMOOTH)));
     }
+
 }
