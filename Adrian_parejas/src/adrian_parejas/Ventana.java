@@ -6,9 +6,12 @@ package adrian_parejas;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.Timer;
 
 /**
  *
@@ -24,10 +28,17 @@ import javax.swing.JRadioButton;
  */
 public class Ventana {
 
+    ImageIcon reverso = new ImageIcon("img\\reverso.jpg");
     JFrame frame = new JFrame();
     JPanel panel = new JPanel();
     JLabel carta1 = new JLabel();
     JLabel carta2 = new JLabel();
+    JLabel carta3 = new JLabel();
+    JLabel carta4 = new JLabel();
+    JLabel carta5 = new JLabel();
+    JLabel carta6 = new JLabel();
+    private JLabel cartaSelecionnada1 = null;
+    private JLabel cartaSelecionnado2 = null;
 
     public Ventana() {//constructor vacio para jframe
         frame.setVisible(true); //mostrar jframe
@@ -40,8 +51,8 @@ public class Ventana {
         frame.setTitle("Lihuak");// para añadir un titulo
 
         Panel(); // llama al metodo panel
-
         baraja();
+
         FondoPantalla();
 
     }
@@ -52,43 +63,92 @@ public class Ventana {
         panel.setLayout(null); // desactiva el layout por defecto
 
     }
+    
+        public void baraja() {
+        // Configura las cartas
+        configurarCarta(carta1, "arkham", 250, 50);
+        configurarCarta(carta2, "joker", 800, 50);
+        configurarCarta(carta3, "arkham", 1350, 50);
+        configurarCarta(carta4, "joker", 250, 550);
+        configurarCarta(carta5, "batman", 800, 550);
+        configurarCarta(carta6, "batman", 1350, 550);
+    }
+    
 
     public void FondoPantalla() {
 
         ImageIcon imagen = new ImageIcon("img\\ghotam.jpg");
         JLabel fondo = new JLabel();
-
-        // Establecer el tamaño del JLabel de fondo
         fondo.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-
-        // Asignar la imagen al JLabel de fondo
         fondo.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(fondo.getWidth(), fondo.getHeight(), Image.SCALE_SMOOTH)));
-
-        // Añadir el JLabel de fondo al panel
         panel.add(fondo);
-
-        // Asegúrate de que el panel se repinte
         panel.revalidate();
         panel.repaint();
     }
+    private void configurarCarta(JLabel carta, String nombre, int x, int y) {
+        carta.setBounds(x, y, 300, 450);
+        carta.setVisible(true);
+        carta.setBackground(Color.white);
+        carta.setForeground(Color.white);
+        carta.setIcon(new ImageIcon(reverso.getImage().getScaledInstance(carta.getWidth(), carta.getHeight(), Image.SCALE_SMOOTH)));
+        carta.setName(nombre);
+        carta.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                manejarClick(carta);
+            }
+        });
+        panel.add(carta);
+    }
 
-    public void baraja() {
+    private void manejarClick(JLabel cartaSeleccionada) {
+        // Evita clics si ya hay dos cartas seleccionadas
+        if (cartaSelecionnada1 != null && cartaSelecionnado2 != null) return;
 
-        carta1.setBounds(250, 100, 300, 400);
-        carta1.setVisible(true);
-        carta1.setBackground(Color.white);
-        carta1.setForeground(Color.white);
-        panel.add(carta1);
-        ImageIcon reverso = new ImageIcon("img\\reverso.jpg");
-        carta1.setIcon(new ImageIcon(reverso.getImage().getScaledInstance(carta1.getWidth(), carta1.getHeight(), Image.SCALE_SMOOTH)));
+        cartaSeleccionada.setIcon(cambiarImagen(cartaSeleccionada));
 
-        carta2.setBounds(800, 100, 300, 400);
-        carta2.setVisible(true);
-        carta2.setBackground(Color.white);
-        carta2.setForeground(Color.white);
-        panel.add(carta2);
-        ImageIcon reverso2 = new ImageIcon("img\\reverso.jpg");
-        carta2.setIcon(new ImageIcon(reverso2.getImage().getScaledInstance(carta2.getWidth(), carta2.getHeight(), Image.SCALE_SMOOTH)));
+        if (cartaSelecionnada1 == null) {
+            cartaSelecionnada1 = cartaSeleccionada;
+        } else {
+            cartaSelecionnado2 = cartaSeleccionada;
+
+            if (cartaSelecionnada1.getName().equals(cartaSelecionnado2.getName())) {
+                System.out.println("Las cartas son iguales!");
+                cartaSelecionnada1 = null;
+                cartaSelecionnado2 = null; 
+            } else {
+                System.out.println("Las cartas son diferentes!");
+                Timer timer = new Timer(1000, e -> revertirCartas());
+                timer.setRepeats(false);
+                timer.start();
+            }
+        }
+    }
+
+    private void revertirCartas() {
+        cartaSelecionnada1.setIcon(new ImageIcon(reverso.getImage().getScaledInstance(cartaSelecionnada1.getWidth(), cartaSelecionnada1.getHeight(), Image.SCALE_SMOOTH)));
+        cartaSelecionnado2.setIcon(new ImageIcon(reverso.getImage().getScaledInstance(cartaSelecionnado2.getWidth(), cartaSelecionnado2.getHeight(), Image.SCALE_SMOOTH)));
+        cartaSelecionnada1 = null;
+        cartaSelecionnado2 = null;
+    }
+
+    private ImageIcon cambiarImagen(JLabel cartaSeleccionada) {
+        ImageIcon iconoOriginal = null;
+
+        if (cartaSeleccionada.getName().equals("arkham")) {
+            iconoOriginal = new ImageIcon("img\\arkham.jpg");
+        } else if (cartaSeleccionada.getName().equals("joker")) {
+            iconoOriginal = new ImageIcon("img\\joker.jpg");
+        }else if(cartaSeleccionada.getName().equals("batman")){
+             iconoOriginal = new ImageIcon("img\\batman.jpg");
+        }
+
+        if (iconoOriginal != null) {
+            Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(cartaSeleccionada.getWidth(), cartaSeleccionada.getHeight(), Image.SCALE_SMOOTH);
+            return new ImageIcon(imagenEscalada);
+        }
+
+        return null;
     }
 
 }
