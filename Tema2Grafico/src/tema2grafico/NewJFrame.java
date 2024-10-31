@@ -6,8 +6,13 @@ package tema2grafico;
 
 import java.sql.*;
 import java.awt.Color;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
@@ -34,15 +39,16 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         botonAcceder1 = new javax.swing.JButton();
         panelIzquierda = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         panelDerecha = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        textoConstraseña = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         textoUsuario = new javax.swing.JTextField();
         botonAcceder = new javax.swing.JButton();
         botonCrear = new javax.swing.JButton();
         textoErrorCrear = new javax.swing.JLabel();
         botonRestablecer = new javax.swing.JButton();
+        textoConstraseña = new javax.swing.JPasswordField();
 
         jPanel1.setBackground(new java.awt.Color(96, 0, 255));
 
@@ -72,15 +78,24 @@ public class NewJFrame extends javax.swing.JFrame {
 
         panelIzquierda.setBackground(new java.awt.Color(153, 153, 153));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\FP\\Documents\\NetBeansProjects\\Interfazes\\Tema2Grafico\\img\\arkham.png")); // NOI18N
+        jLabel2.setText("jLabel2");
+
         javax.swing.GroupLayout panelIzquierdaLayout = new javax.swing.GroupLayout(panelIzquierda);
         panelIzquierda.setLayout(panelIzquierdaLayout);
         panelIzquierdaLayout.setHorizontalGroup(
             panelIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 311, Short.MAX_VALUE)
+            .addGroup(panelIzquierdaLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         panelIzquierdaLayout.setVerticalGroup(
             panelIzquierdaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelIzquierdaLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelDerecha.setBackground(new java.awt.Color(51, 51, 51));
@@ -152,42 +167,43 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(panelDerechaLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDerechaLayout.createSequentialGroup()
+                    .addGroup(panelDerechaLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(textoUsuario))
+                    .addGroup(panelDerechaLayout.createSequentialGroup()
+                        .addComponent(textoErrorCrear)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelDerechaLayout.createSequentialGroup()
                         .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(botonCrear))
                         .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDerechaLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(textoConstraseña))
-                            .addGroup(panelDerechaLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(botonAcceder, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(botonRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 18, Short.MAX_VALUE))))
-                    .addGroup(panelDerechaLayout.createSequentialGroup()
-                        .addComponent(textoErrorCrear)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelDerechaLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(textoUsuario)))
+                                .addGap(0, 10, Short.MAX_VALUE))
+                            .addGroup(panelDerechaLayout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(textoConstraseña)))))
                 .addContainerGap())
         );
         panelDerechaLayout.setVerticalGroup(
             panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDerechaLayout.createSequentialGroup()
                 .addGap(296, 296, 296)
-                .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(panelDerechaLayout.createSequentialGroup()
-                        .addComponent(textoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(textoConstraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDerechaLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDerechaLayout.createSequentialGroup()
+                        .addComponent(textoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)))
+                .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(textoConstraseña))
                 .addGap(58, 58, 58)
                 .addGroup(panelDerechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,7 +211,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(botonRestablecer, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77)
                 .addComponent(textoErrorCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -229,28 +245,36 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void botonAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAccederActionPerformed
         String usuario = textoUsuario.getText().toString();
-        String password = textoConstraseña.getText().toString();
-        accederSQL(usuario, password);
+      
+        try {
+           
+             accederSQL(usuario, getMD5(new String(textoConstraseña.getPassword())));
+        } catch (Exception ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
     }//GEN-LAST:event_botonAccederActionPerformed
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-        String usuario = textoUsuario.getText().toString();
-        String password = textoConstraseña.getText().toString();
-        try {
-            registrarSQL(usuario, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+        JFRAMEcrear jc=new JFRAMEcrear();
+        jc.setVisible(true);
+        jc.setEnabled(true);
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonAcceder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAcceder1ActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_botonAcceder1ActionPerformed
 
     private void botonRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRestablecerActionPerformed
       String usuario = textoUsuario.getText().toString();
-        String password = textoConstraseña.getText().toString();
-        restablecerContraseña(usuario,password);
+      
+        try {
+             restablecerContraseña(usuario, getMD5(new String(textoConstraseña.getPassword())));
+        } catch (Exception ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
     }//GEN-LAST:event_botonRestablecerActionPerformed
 
     /**
@@ -325,7 +349,8 @@ public class NewJFrame extends javax.swing.JFrame {
                this.dispose();
              
             } else {
-                System.out.println("No esta");
+               textoErrorCrear.setText("Usuario no encontrado");
+               textoErrorCrear.setForeground(Color.red);
             }
 
         } catch (SQLException ex) {
@@ -377,6 +402,23 @@ public class NewJFrame extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }
+    
+public static String getMD5(String input) {
+ try {
+ MessageDigest md = MessageDigest.getInstance("MD5");
+ byte[] messageDigest = md.digest(input.getBytes());
+ BigInteger number = new BigInteger(1, messageDigest);
+ String hashtext = number.toString(16);
+
+ while (hashtext.length() < 32) {
+ hashtext = "0" + hashtext;
+ }
+ return hashtext;
+ }
+ catch (NoSuchAlgorithmException e) {
+ throw new RuntimeException(e);
+ }
+ }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -385,11 +427,12 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton botonCrear;
     private javax.swing.JButton botonRestablecer;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelDerecha;
     private javax.swing.JPanel panelIzquierda;
-    private javax.swing.JTextField textoConstraseña;
+    private javax.swing.JPasswordField textoConstraseña;
     private javax.swing.JLabel textoErrorCrear;
     private javax.swing.JTextField textoUsuario;
     // End of variables declaration//GEN-END:variables
